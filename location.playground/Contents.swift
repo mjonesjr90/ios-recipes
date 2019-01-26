@@ -19,8 +19,32 @@ override func viewDidLoad() {
     //Ask for permission
     locationManager.requestWhenInUseAuthorization()
     
+    locationManager.startUpdatingLocation()
+    //asynch method that works in background
+    // sends message to Delegate - the current view controller - needs didUpdateLocations method
+    
 }
 
+func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    //Location is saved in array of CLLocation objects called locations
+    let location = locations[locations.count - 1]
+    if location.horizontalAccuracy > 0 { // once the location is accurate, stop trying to find it - to save battery
+        locationManager.stopUpdatingLocation()
+        
+        print("lon = \(location.coordinate.longitude), lat = \(location.coordinate.latitude)")
+        
+        let latitude = String(location.coordinate.latitude)
+        let longitude = String(location.coordinate.longitude)
+        
+        let params: [String: String] = ["lat": latitude, "lon": longitude, "appid": APP_ID]
+    }
+}
+
+
+func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print(error)
+    // let the user know location is unavailable
+}
 
 //In Info.plist add the following
 //<key>NSLocationWhenInUseUsageDescription</key>
