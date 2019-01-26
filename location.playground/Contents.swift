@@ -30,6 +30,7 @@ func locationManager(_ manager: CLLocationManager, didUpdateLocations locations:
     let location = locations[locations.count - 1]
     if location.horizontalAccuracy > 0 { // once the location is accurate, stop trying to find it - to save battery
         locationManager.stopUpdatingLocation()
+        // you can set locationManager.delegate = nil if you want it to stop recieving location messages
         
         print("lon = \(location.coordinate.longitude), lat = \(location.coordinate.latitude)")
         
